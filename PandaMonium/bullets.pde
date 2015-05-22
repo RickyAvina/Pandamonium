@@ -6,19 +6,19 @@ class Bullets extends DrawableThing
 
   void display()
   {
-    for (int i = 0; i < bullets.size (); i++) 
+    for (int i = 0; i < game.bullets.size (); i++) 
     {
-      bullets.get(i).display();
+      game.bullets.get(i).display();
     }
   }
 
   void update()
   {
-    for (int i = 0; i < bullets.size (); i++) 
+    for (int i = 0; i < game.bullets.size (); i++) 
     {
-      bullets.get(i).update();
-      if (bullets.get(i).location.x > 900 + 5 || bullets.get(i).location.x < 0 - 5 || bullets.get(i).location.y > 900 + 5 || bullets.get(i).location.y < 0 - 5) {
-        bullets.remove(i);
+      game.bullets.get(i).update();
+      if (game.bullets.get(i).location.x > 900 + 5 || game.bullets.get(i).location.x < 0 - 5 || game.bullets.get(i).location.y > 900 + 5 || game.bullets.get(i).location.y < 0 - 5) {
+        game.bullets.remove(i);
       }
 
       // TBD: what if the bullet hits something like the player or another turret ?
@@ -34,14 +34,8 @@ class Bullets extends DrawableThing
 
   void makeBullet(PVector location, Float angle)
   {
-    if (balls.size() != 0) {
-      bullets.add(new Bullet(location, angle));
-    }
-  }
-
-  void makeBomb(PVector location, float angle) {
-    if (balls.size() != 0) {
-      bullets.add(new Bomb(location, angle));
+    if (game.balls.size() != 0) {
+      game.bullets.add(new Bullet(location, angle));
     }
   }
 }
