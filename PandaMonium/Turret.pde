@@ -7,25 +7,27 @@ class Turret extends DrawableThing
   float targetAngle = 0;
   float easing = 0.051f;
   PVector target;
-  float accuracyAngle = -136;
-  int range = 200;
-
-  Turret(PVector vector, PVector thetarget)
+  float accuracyAngle = -138;
+  int range;
+  PImage image;
+  Turret(PVector vector, PVector thetarget, int range, PImage image)
   {
     location = vector;
     target = thetarget;
+    this.range = range;
+    this.image = image;
   }
 
   void update()
   {
     PVector thetarget = new PVector(0, 0);
-    if (game.balls.size() > 0) {
-      thetarget = game.balls.get(0).location;
+    if (balls.size() > 0) {
+      thetarget = balls.get(0).location;
     }
 
-    for (int i = 0; i < game.balls.size();i++) {
-      if (location.dist(game.balls.get(i).location) < location.dist(thetarget)) {
-        thetarget = game.balls.get(i).location;
+    for (int i = 0; i < balls.size();i++) {
+      if (location.dist(balls.get(i).location) < location.dist(thetarget)) {
+        thetarget = balls.get(i).location;
       }
     }
 
@@ -43,25 +45,94 @@ class Turret extends DrawableThing
     angle += radians(accuracyAngle);
     translate( location.x, location.y );
     rotate( angle );
-    scale(.2);
-    image(turret,0, 0);
+    image(this.image, 0, 0,50,50);
     popMatrix();
 
-    range();
+    rangeCircle();         // displays circle around turret
   }
 
   void shoot()
   {
-    for (int i = 0; i < game.balls.size(); i++) {
-      if (game.balls.get(i).location.dist(location) > 0 && game.balls.get(i).location.dist(location) < range) {              // range
-        game.b.makeBullet(location, angle);
+    for (int i = 0; i < balls.size(); i++) {
+      if (balls.get(i).location.dist(location) > 0 && balls.get(i).location.dist(location) < range-100) {              // range
+        b.makeBullet(location, angle);
       }
     }
   }
 
-  void range() {
+  void rangeCircle() {
     fill(100, 100, 100, 100);
-    ellipse(location.x, location.y, 400, 400);
+    ellipse(location.x, location.y, this.range, this.range);
+  }
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+class ShotgunTurret extends Turret {
+
+  int range = 200;
+  ShotgunTurret(PVector vector, PVector thetarget, int range, PImage image) {
+    super(vector, thetarget, range, image);
+  }
+
+  void rangeCircle() {
+    fill(100, 100, 100, 100);
+    ellipse(location.x, location.y, range, range);
+  }
+
+  void shoot() {
+    for (int i = 0; i < balls.size(); i++) {
+      if (balls.get(i).location.dist(location) > 0 && balls.get(i).location.dist(location) < range-100) {              // range
+        b.makeBullet(location, angle - 50);
+        b.makeBullet(location, angle);
+        b.makeBullet(location, angle + 50);
+      }
+    }
+  }
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+class ThreeSixtyTurret extends Turret {
+  int range = 300;
+
+  ThreeSixtyTurret(PVector vector, PVector thetarget, int range, PImage image) {
+    super(vector, thetarget, range, image);
+  }
+
+  void shoot() {
+    for (int i = 0; i < balls.size(); i++) {
+      if (balls.get(i).location.dist(location) > 0 && balls.get(i).location.dist(location) < range-100) {              // range
+        b.makeBullet(location, angle-160);
+        b.makeBullet(location, angle-120);
+        b.makeBullet(location, angle-80);
+        b.makeBullet(location, angle-40);
+        b.makeBullet(location, angle);
+        b.makeBullet(location, angle+40);
+        b.makeBullet(location, angle+80);
+        b.makeBullet(location, angle+120);
+        b.makeBullet(location, angle+160);
+      }
+    }
+  }
+}
+
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+class FreezeTurret extends Turret {
+  int range = 600;
+
+  FreezeTurret(PVector vector, PVector thetarget, int range, PImage image) {
+    super(vector, thetarget, range, image);
+  }
+
+  void shoot() {
+    for (int i = 0; i < balls.size(); i++) {
+      if (balls.get(i).location.dist(location) > 0 && balls.get(i).location.dist(location) < range-100) {
+
+        balls.get(i).acc.x *= 0.6;
+        balls.get(i).acc.y *= 0.6;
+      }
+    }
   }
 }
 
