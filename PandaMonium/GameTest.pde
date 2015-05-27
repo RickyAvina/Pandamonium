@@ -2,6 +2,10 @@ int level;
 Button2 b3 = new Button2();
 Button3 b2 = new Button3();
 boolean run = false;
+import ddf.minim.*;
+
+AudioSnippet player;
+Minim minim;//audio context
 
 PImage turret;
 Game game = new Game();
@@ -12,7 +16,9 @@ void setup() {
   frameRate(18);
   initGame();
  turret = loadImage("turret.png");
-
+  minim = new Minim(this);
+  player = minim.loadSnippet("mozic.mp3");
+  player.play();
 }
 
 void draw() {
