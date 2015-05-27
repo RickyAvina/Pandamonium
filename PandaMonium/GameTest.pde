@@ -1,10 +1,10 @@
 int level;
+Button2 b3 = new Button2();
+Button3 b2 = new Button3();
+boolean run = false;
 
 PImage turret;
 Game game = new Game();
-
-
-
 
 void setup() {
   size(900, 800);
@@ -12,11 +12,21 @@ void setup() {
   frameRate(18);
   initGame();
  turret = loadImage("turret.png");
+
 }
 
 void draw() {
   background(0);
-  game.run();
+  //game.run();
+    b3.display();
+    //  b2.display();
+//     if (mousePressed){
+//   run = true;
+// }
+    if(run == true){
+       game.run(); 
+    }
+    
 }
 
 void initGame() {
